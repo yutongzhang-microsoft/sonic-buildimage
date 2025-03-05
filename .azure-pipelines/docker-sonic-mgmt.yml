@@ -89,7 +89,8 @@ stages:
     - script: |
         set -ex
 
-        docker load -i docker-sonic-mgmt.gz
+        ls
+        docker load -i target/docker-sonic-mgmt.gz
 
         cd ansible
         sudo ./setup-management-network.sh -d
