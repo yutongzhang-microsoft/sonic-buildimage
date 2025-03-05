@@ -82,13 +82,22 @@ stages:
       clean: true
       displayName: 'Checkout sonic-mgmt'
 
+    - download: current
+      artifact: 'docker-sonic-mgmt'
+      displayName: "Download docker image sonic-mgmt"
+
     - script: |
         set -ex
+
+        docker load -i docker-sonic-mgmt.gz
 
         cd ansible
         sudo ./setup-management-network.sh -d
         cd ../
         docker rm -f sonic-mgmt
+
+        docker images | grep docker-sonic-mgmt
+
         ./setup-container.sh -n sonic-mgmt -d /data -i docker-sonic-mgmt -v
       displayName: 'Setup sonic-mgmt docker container'
 
